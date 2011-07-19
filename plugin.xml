@@ -1,0 +1,13 @@
+<plugin name='datasources' version='0.5' grailsVersion='1.1.1 &gt; *'>
+  <author>Burt Beckwith</author>
+  <authorEmail>burt@burtbeckwith.com</authorEmail>
+  <title>Grails Datasources Plugin.</title>
+  <description>Supports defining multiple data sources per application.</description>
+  <documentation>http://grails.org/plugin/datasources</documentation>
+  <resources>
+    <resource>BuildConfig</resource>
+  </resources>
+  <dependencies>
+    <plugin name='hibernate' version='1.0 &gt; *' />
+  </dependencies>
+</plugin>
