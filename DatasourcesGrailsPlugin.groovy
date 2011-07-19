@@ -40,8 +40,8 @@ import com.burtbeckwith.grails.plugin.datasources.ReadOnlyDriverManagerDataSourc
 
 class DatasourcesGrailsPlugin {
 
-	String version = '0.5'
-	Map dependsOn = [hibernate: '1.0 > *']
+	String version = '0.5.1'
+	Map dependsOn = [hibernate: '1.3.7 > *']
 	List loadAfter = ['hibernate', 'services']
 	String watchedResources = 'file:./grails-app/conf/Datasources.groovy'
 	String author = 'Burt Beckwith'
@@ -136,7 +136,7 @@ class DatasourcesGrailsPlugin {
 					}
 				}
 			}
-			if (ds.pooled) {
+			if (ds.pooled && !ds.jndiName) {
 				dsBean.destroyMethod = 'close'
 			}
 
@@ -364,8 +364,11 @@ class DatasourcesGrailsPlugin {
 	}
 
 	def doWithApplicationContext = { applicationContext ->
-		ConstrainedProperty.registerNewConstraint(UniqueConstraint.UNIQUE_CONSTRAINT,
-				[newInstance: { -> DatasourcesUniqueConstraintFactory.build() }] as ConstraintFactory)
+	def dataSources = loadConfig()
+        if(dataSources) {
+ 		ConstrainedProperty.registerNewConstraint(UniqueConstraint.UNIQUE_CONSTRAINT,
+ 		  [newInstance: { -> DatasourcesUniqueConstraintFactory.build() }] as ConstraintFactory)
+		} 
 	}
 
 	def doWithWebDescriptor = { xml -> }
